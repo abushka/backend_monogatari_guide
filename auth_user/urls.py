@@ -14,14 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import include, path
-from .views import FacebookLogin, TwitterLogin, GitHubLogin, GoogleLogin, github_callback
+from django.views.generic import TemplateView
+# from .views import SocialLoginView
 
 urlpatterns = [
     path('', include('dj_rest_auth.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('home/', TemplateView.as_view(template_name='dashboard/home.html'), name='home'),
     path('registration/', include('dj_rest_auth.registration.urls')),
-    path('facebook/', FacebookLogin.as_view(), name='fb_login'),
-    path('twitter/', TwitterLogin.as_view(), name='twitter_login'),
-    path('github/', GitHubLogin.as_view(), name='github_login'),
-    path('google/', GoogleLogin.as_view(), name='google_login'),
-    path('github-123/', github_callback, name='github_callback')
+    # path('rest-auth/social/login/', SocialLoginView.as_view(), name='social_login'),
 ]

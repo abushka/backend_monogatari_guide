@@ -29,8 +29,11 @@ SECRET_KEY = 'django-insecure-#xr4+jp*mg(9&k2j!7=efdzh*s$1@@9ba(l5d)xmc^p7j85%ic
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'abushka.uz', 'back.abushka.uz', '0.0.0.0']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://back.abushka.uz',
+]
 
 # Application definition
 
@@ -47,16 +50,17 @@ INSTALLED_APPS = [
     'dj_rest_auth',
 
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
+    
     'dj_rest_auth.registration',
 
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     
+    'allauth',
+    'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.twitter',
+    # 'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
     
@@ -80,7 +84,7 @@ ROOT_URLCONF = 'monogatari_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,6 +92,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'django.templates.context_proccessors.request',
             ],
         },
     },
@@ -154,7 +159,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -183,7 +189,7 @@ REST_AUTH = {
     'TOKEN_CREATOR': 'dj_rest_auth.utils.default_create_token',
 
     'PASSWORD_RESET_USE_SITES_DOMAIN': False,
-    'OLD_PASSWORD_FIELD_ENABLED': False,
+    'OLD_PASSWORD_FIELD_ENABLED': True,
     'LOGOUT_ON_PASSWORD_CHANGE': False,
     'SESSION_LOGIN': True,
     'USE_JWT': True,
@@ -198,5 +204,50 @@ REST_AUTH = {
     'JWT_AUTH_COOKIE_USE_CSRF': False,
     'JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED': False,
 }
+
+LOGIN_REDIRECT_URL = "home"
+
+ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
+
+SOCIALACCOUNT_ADAPTER = 'auth_user.pipeline.CustomSocialAccountAdapter'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    },
+    'facebook': {
+        'METHOD': 'oauth2',
+        # 'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+        'SCOPE': ['email', 'public_profile'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'first_name',
+            'last_name',
+            'middle_name',
+            'name',
+            'name_format',
+            'picture',
+            'short_name'
+        ],
+        'EXCHANGE_TOKEN': True,
+        # 'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v13.0',
+        'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
+    },
+}
+
+# AUTHENTICATION_BACKENDS = [
+#     # 'django.contrib.auth.backends.ModelBackend',
+#     'allauth.account.auth._backends.AuthenticationBackend',
+# ]
 
 AUTH_USER_MODEL = 'auth_user.CustomUser'
