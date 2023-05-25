@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -63,6 +64,8 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
+
+    'corsheaders',
     
     'auth_user',
 ]
@@ -71,6 +74,8 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,6 +83,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'monogatari_backend.urls'
 
@@ -157,10 +164,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+#     'ROTATE_REFRESH_TOKENS': False,
+# }
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -209,7 +221,13 @@ LOGIN_REDIRECT_URL = "home"
 
 ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
 
+ACCOUNT_AUTHENTICATION_METHOD='username_email'
+
+ACCOUNT_EMAIL_VERIFICATION='none'
+
 SOCIALACCOUNT_ADAPTER = 'auth_user.pipeline.CustomSocialAccountAdapter'
+
+SOCIALACCOUNT_STORE_TOKENS = True
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -217,9 +235,20 @@ SOCIALACCOUNT_PROVIDERS = {
             'profile',
             'email',
         ],
+        'SOCIALACCOUNT_STORE_TOKENS': [
+            ('expire', 7200),  # Установите желаемое значение времени истечения токена (в секундах)
+        ],
         'AUTH_PARAMS': {
             'access_type': 'online',
         }
+    },
+    'github': {
+        'SOCIALACCOUNT_STORE_TOKENS': [
+            ('expire', 1800),  # Установите желаемое значение времени истечения токена (в секундах)
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
     },
     'facebook': {
         'METHOD': 'oauth2',

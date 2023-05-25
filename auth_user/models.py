@@ -26,6 +26,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(max_length=100, unique=False, null=True)
     github_account = models.URLField(blank=True, null=True)
     date_joined = models.DateTimeField(null=True, default=None)
+    LANGUAGE_CHOICES = (
+        ('ru', 'Russian'),
+        ('en', 'English'),
+    )
+    language = models.CharField(
+        max_length=2,
+        choices=LANGUAGE_CHOICES,
+        null=True,
+        blank=True
+    )
     # password = models.CharField(max_length=128, null=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
