@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 
@@ -29,6 +30,31 @@ SECRET_KEY = 'django-insecure-#xr4+jp*mg(9&k2j!7=efdzh*s$1@@9ba(l5d)xmc^p7j85%ic
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'D:\desktop\monogatari\monogatari_backend\log.txt',  # Путь к файлу, в который будут записываться логи
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',  # Уровень логирования (можно изменить на 'DEBUG', чтобы получать более подробные сообщения)
+    },
+    'loggers': {
+        'allauth': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'abushka.uz', 'back.abushka.uz', '0.0.0.0']
 
@@ -68,12 +94,15 @@ INSTALLED_APPS = [
     'corsheaders',
     
     'auth_user',
+    # 'fanat',
+    'worker',
 ]
 
 SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'monogatari_backend.middleware.TokenAuthenticationMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -132,12 +161,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        },
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'auth_user.validators.MinLengthValidator',  # Замените "myapp" на имя вашего приложения
     },
 ]
 
@@ -164,11 +193,11 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# SIMPLE_JWT = {
-#     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-#     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
-#     'ROTATE_REFRESH_TOKENS': False,
-# }
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'ROTATE_REFRESH_TOKENS': False,
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -206,18 +235,18 @@ REST_AUTH = {
     'SESSION_LOGIN': True,
     'USE_JWT': True,
 
-    'JWT_AUTH_COOKIE': 'jwt-auth',
-    'JWT_AUTH_REFRESH_COOKIE': None,
+    'JWT_AUTH_COOKIE': 'access',
+    'JWT_AUTH_REFRESH_COOKIE': 'refresh',
     'JWT_AUTH_REFRESH_COOKIE_PATH': '/',
     'JWT_AUTH_SECURE': False,
-    'JWT_AUTH_HTTPONLY': True,
+    'JWT_AUTH_HTTPONLY': False,
     'JWT_AUTH_SAMESITE': 'Lax',
     'JWT_AUTH_RETURN_EXPIRATION': False,
     'JWT_AUTH_COOKIE_USE_CSRF': False,
     'JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED': False,
 }
 
-LOGIN_REDIRECT_URL = "home"
+# LOGIN_REDIRECT_URL = "/"
 
 ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
 

@@ -1,34 +1,28 @@
-from django.dispatch import receiver
-from allauth.socialaccount.signals import pre_social_login
-from dj_rest_auth.serializers import JWTSerializer
-from dj_rest_auth.views import LoginView
+# import requests
+# import os
+# from dotenv import load_dotenv
 
-@receiver(pre_social_login)
-def create_jwt_token(sender, request, sociallogin, **kwargs):
-    # Получение доступа к токену авторизации
-    token = sociallogin.token
+# load_dotenv()
 
-    # Создание JWT токена с использованием dj_rest_auth
-    jwt_serializer = JWTSerializer()
-    jwt_token = jwt_serializer.create_token(request.user)
+# def refresh_token(refresh_token):
+#     verify_url = f'{os.getenv("DJANGO_PROTOCOL")}{os.getenv("DJANGO_HOST")}{os.getenv("DJANGO_PORT")}/api/auth/token/verify/'
+#     refresh_url = f'{os.getenv("DJANGO_PROTOCOL")}{os.getenv("DJANGO_HOST")}{os.getenv("DJANGO_PORT")}/api/auth/token/refresh/'
+#     print()
 
-    # Возврат JWT токена в ответе
-    login_view = LoginView()
-    response = login_view.get_response(request)
-    response.data['token'] = jwt_token
+#     # Проверяем валидность токена
+#     verify_data = {'token': refresh_token}
+#     response = requests.post(verify_url, data=verify_data)
+#     if response.status_code == 200:
+#         print("Токен валиден.")
+#     else:
+#         print("Токен недействителен. Получаем новый токен.")
 
-    return response
-
-
-
-# from dj_rest_auth.views import LoginView
-# from rest_framework.authtoken.models import Token
-
-# class SocialLoginView(LoginView):
-#     def login(self):
-#         self.user = self.serializer.validated_data['user']
-#         token, _ = Token.objects.get_or_create(user=self.user)
-#         response = {
-#             'token': token.key,
-#         }
-#         return response
+#         # Обновляем токен
+#         refresh_data = {'refresh': refresh_token}
+#         response = requests.post(refresh_url, data=refresh_data)
+#         if response.status_code == 200:
+#             new_token = response.json().get('access_token')
+#             print("Новый токен получен:", new_token)
+#             # Далее вы можете использовать новый токен для доступа к защищенным ресурсам
+#         else:
+#             print("Не удалось получить новый токен.")

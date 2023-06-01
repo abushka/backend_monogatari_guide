@@ -36,16 +36,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         null=True,
         blank=True
     )
-    # password = models.CharField(max_length=128, null=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-
-    # def set_password(self, password):
-    #     self.password = make_password(password)
 
     def __str__(self):
         return self.username

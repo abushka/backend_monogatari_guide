@@ -1,8 +1,14 @@
+# Django
 Django==4.2.1
 djangorestframework==3.14.0
 dj-rest-auth==4.0.1
 django-allauth==0.54.0
-python-dotenv==1.0.0
 djangorestframework-simplejwt==5.2.2
-psycopg2-binary==2.9.6
 django-cors-headers==4.0.0
+# API
+requests==2.31.0
+# Database
+psycopg2-binary==2.9.6
+# ENV
+python-dotenv==1.0.0
+
