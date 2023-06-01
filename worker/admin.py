@@ -7,8 +7,9 @@ class SerieStatusInline(admin.TabularInline):
     extra = 0
 
 class SerieAdmin(admin.ModelAdmin):
-    list_display = ('name_ru', 'name_en', 'name_jp')
+    list_display = ('name_ru', 'number', 'name_en', 'name_jp')
     inlines = [SerieStatusInline]
+    ordering = ['number']
 
 # Сезоны
 class SerieInline(admin.TabularInline):
@@ -21,8 +22,9 @@ class SeasonStatusInline(admin.TabularInline):
 
 @admin.register(Season)
 class SeasonAdmin(admin.ModelAdmin):
-    list_display = ('name_ru', 'name_en', 'name_jp')
+    list_display = ('name_ru', 'number', 'name_en', 'name_jp')
     inlines = [SerieInline, SeasonStatusInline]
+    ordering = ['number']
 
 
 # Главы
@@ -31,8 +33,9 @@ class ChapterStatusInline(admin.TabularInline):
     extra = 0
 
 class ChapterAdmin(admin.ModelAdmin):
-    list_display = ('name_ru', 'name_en', 'name_jp')
+    list_display = ('name_ru', 'number', 'name_en', 'name_jp')
     inlines = [ChapterStatusInline]
+    ordering = ['number']
 
 # Томы
 class ChapterInline(admin.TabularInline):
@@ -45,8 +48,9 @@ class VolumeStatusInline(admin.TabularInline):
 
 @admin.register(Volume)
 class VolumeAdmin(admin.ModelAdmin):
-    list_display = ('name_ru', 'name_en', 'name_jp')
+    list_display = ('name_ru', 'number', 'name_en', 'name_jp')
     inlines = [ChapterInline, VolumeStatusInline]
+    ordering = ['number']
 
 
 admin.site.register(Serie, SerieAdmin)

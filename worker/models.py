@@ -2,6 +2,7 @@ from django.db import models
 from auth_user.models import CustomUser
 
 class Season(models.Model):
+    number = models.IntegerField(blank=True, null=True)
     name_ru = models.CharField(max_length=100, verbose_name='Название (русский)', blank=True, null=True)
     name_en = models.CharField(max_length=100, verbose_name='Название (английский)', blank=True, null=True)
     name_jp = models.CharField(max_length=100, verbose_name='Название (японский)', blank=True, null=True)
@@ -27,6 +28,7 @@ class SeasonStatus(models.Model):
 
 
 class Serie(models.Model):
+    number = models.IntegerField(blank=True, null=True)
     name_ru = models.CharField(max_length=100, verbose_name='Название (русский)', blank=True, null=True)
     name_en = models.CharField(max_length=100, verbose_name='Название (английский)', blank=True, null=True)
     name_jp = models.CharField(max_length=100, verbose_name='Название (японский)', blank=True, null=True)
@@ -53,6 +55,7 @@ class SerieStatus(models.Model):
 
 
 class Volume(models.Model):
+    number = models.IntegerField(blank=True, null=True)
     name_ru = models.CharField(max_length=100, verbose_name='Название (русский)', blank=True, null=True)
     name_en = models.CharField(max_length=100, verbose_name='Название (английский)', blank=True, null=True)
     name_jp = models.CharField(max_length=100, verbose_name='Название (японский)', blank=True, null=True)
@@ -79,6 +82,7 @@ class VolumeStatus(models.Model):
 
 
 class Chapter(models.Model):
+    number = models.IntegerField(blank=True, null=True)
     name_ru = models.CharField(max_length=100, verbose_name='Название (русский)', blank=True, null=True)
     name_en = models.CharField(max_length=100, verbose_name='Название (английский)', blank=True, null=True)
     name_jp = models.CharField(max_length=100, verbose_name='Название (японский)', blank=True, null=True)

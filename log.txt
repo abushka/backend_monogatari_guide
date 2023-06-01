@@ -857,3 +857,65 @@ D:\desktop\monogatari\monogatari_backend\worker\serializers.py changed, reloadin
 Watching for file changes with StatReloader
 D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
 Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\admin.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\admin.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\admin.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\admin.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\admin.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\admin.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\admin.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\admin.py changed, reloading.
+Watching for file changes with StatReloader
+D:\desktop\monogatari\monogatari_backend\worker\admin.py changed, reloading.
+Watching for file changes with StatReloader
