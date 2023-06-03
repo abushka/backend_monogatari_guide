@@ -42,18 +42,18 @@ P.S может напишу чуть позже Dockerfile и docker-compose.yml
 - `sudo nano /etc/systemd/system/django.service`
 - Вставить в файл службы Django следующий код:
 
-        [Unit]
-        Description=Django Web Application
-        After=network.target
+      [Unit]
+      Description=Django Web Application
+      After=network.target
 
-        [Service]
-        User=username
-        Group=group
-        WorkingDirectory=/path/to/project_directory
-        ExecStart=/path/to/python /path/to/manage.py runserver 0.0.0.0:8000
+      [Service]
+      User=username
+      Group=group
+      WorkingDirectory=/path/to/project_directory
+      ExecStart=/path/to/python /path/to/manage.py runserver 0.0.0.0:8000
 
-        [Install]
-        WantedBy=multi-user.target
+      [Install]
+      WantedBy=multi-user.target
 
 - Заменить `username` на имя пользователя.
 - Заменить `group` на группу пользователя (обычно такое же как имя пользователя, но можно узнать свою группу в Linux, нужно ввести команду `groups`).
