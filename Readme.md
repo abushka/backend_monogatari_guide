@@ -22,14 +22,16 @@
 - Копировать файл `.env_example`, переименовать на `.env` и изменить значения переменных на свои
 
 - `SECRET_KEY` - секретный ключ Django, любой набор символов, если впадлу создавать новый секретный ключ, то просто раскоментируйте строчку в файле `settings.py` в `monogatari_backend` 
+
 раскомментрировать: `# SECRET_KEY = 'django-insecure-#xr4+jp*mg(9&k2j!7=eqwh*s$1@@9ba(l5d)xmc^p7j85%ic'` 
 закомментировать: `SECRET_KEY = os.getenv('SECRET_KEY')`
+
 но лучше конечно использовать следующее:
 Импортируйте `from django.core.management.utils import get_random_secret_key` и отобразите секретный ключ в консоли с помощью `print(get_random_secret_key())`, результат будет примерно таким - `gw^9ej(l4vq%d_06xig$vw+b(-@#00@8l7jlv77=sq5r_sf3nu`
 
-- `POSTGRES_DB` - имя базы данных, её создали с помощью команды `CREATE DATABASE db_name;`
+- `POSTGRES_DB` - имя базы данных, её мы создали с помощью команды `CREATE DATABASE db_name;`
 - `POSTGRES_USER` - имя пользователя, `POSTGRES_PASSWORD` - пароль пользователя, их мы создали с помощью команды `CREATE USER user WITH PASSWORD 'password';`
-- `POSTGRES_HOST` - это оставляете без изменений, хотя можете поставить и `0.0.0.0`, ну а если запускаете в докере, то впишите имя сервиса
+- `POSTGRES_HOST` - это оставляете без изменений, хотя можете поставить и `0.0.0.0` (только если нужно), ну а если запускаете в докере, то впишите имя сервиса
 - `POSTGRES_PORT` - это стандартный порт базы данных Postgresql, мы его не меняли, так что можем оставить как есть, если Вы конечно сами ничего не трогали в настройках бд
 
 P.S может напишу чуть позже Dockerfile и docker-compose.yml, но сейчас в этом нет нужды, т.к. сервак у меня с минимальными спеками и докер просто сожрёт их, но если кому срочно надо - напишите в тг по юзеру `@YaJ75` и я быстро наклепаю Вам годный Dockerfile и docker-compose.yml
@@ -40,18 +42,18 @@ P.S может напишу чуть позже Dockerfile и docker-compose.yml
 - `sudo nano /etc/systemd/system/django.service`
 - Вставить в файл службы Django следующий код:
 
-    [Unit]
-    Description=Django Web Application
-    After=network.target
+        [Unit]
+        Description=Django Web Application
+        After=network.target
 
-    [Service]
-    User=username
-    Group=group
-    WorkingDirectory=/path/to/project_directory
-    ExecStart=/path/to/python /path/to/manage.py runserver 0.0.0.0:8000
+        [Service]
+        User=username
+        Group=group
+        WorkingDirectory=/path/to/project_directory
+        ExecStart=/path/to/python /path/to/manage.py runserver 0.0.0.0:8000
 
-    [Install]
-    WantedBy=multi-user.target
+        [Install]
+        WantedBy=multi-user.target
 
 - Заменить `username` на имя пользователя.
 - Заменить `group` на группу пользователя (обычно такое же как имя пользователя, но можно узнать свою группу в Linux, нужно ввести команду `groups`).
