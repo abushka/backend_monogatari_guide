@@ -21,7 +21,9 @@
 - Установить зависимости `pip install -r requirements.txt`
 - Копировать файл `.env_example`, переименовать на `.env` и изменить значения переменных на свои
 
-- `SECRET_KEY` - секретный ключ Django, любой набор символов, если впадлу создавать новый секретный ключ, то просто раскоментируйте строчку в файле `settings.py` в `monogatari_backend` `# SECRET_KEY = 'django-insecure-#xr4+jp*mg(9&k2j!7=eqwh*s$1@@9ba(l5d)xmc^p7j85%ic'` и закомментируйте строчку `SECRET_KEY = os.getenv('SECRET_KEY')`
+- `SECRET_KEY` - секретный ключ Django, любой набор символов, если впадлу создавать новый секретный ключ, то просто раскоментируйте строчку в файле `settings.py` в `monogatari_backend` 
+раскомментрировать: `# SECRET_KEY = 'django-insecure-#xr4+jp*mg(9&k2j!7=eqwh*s$1@@9ba(l5d)xmc^p7j85%ic'` 
+закомментировать: `SECRET_KEY = os.getenv('SECRET_KEY')`
 но лучше конечно использовать следующее:
 Импортируйте `from django.core.management.utils import get_random_secret_key` и отобразите секретный ключ в консоли с помощью `print(get_random_secret_key())`, результат будет примерно таким - `gw^9ej(l4vq%d_06xig$vw+b(-@#00@8l7jlv77=sq5r_sf3nu`
 
