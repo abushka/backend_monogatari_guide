@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import CustomUser
 from allauth.socialaccount.models import SocialAccount
 
+
 from django.contrib.auth.forms import (
     ReadOnlyPasswordHashField,
 )
@@ -64,9 +65,8 @@ class CustomUserAdmin(UserAdmin):
                 ),
             },
         ),
-        (_("Important dates"), {"fields": ("last_login",)}),  # Remove "date_joined"
+        (_("Important dates"), {"fields": ("last_login",)}),
     )
-    readonly_fields = ("last_login", "date_joined")  # Add "date_joined"
-
+    readonly_fields = ("last_login", "date_joined")
 
 admin.site.register(CustomUser, CustomUserAdmin)
