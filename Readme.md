@@ -1,6 +1,7 @@
 # Если прошаренный и просто хочешь запустить Django проект
 - Создаёшь бд, пользователя, права даёшь
 - Копируешь файл `.env_example`, переименовываешь на `.env` и меняешь значения переменных на свои
+- Устанавливаешь зависимости `pip install -r requirements.txt`
 - Вводишь команду для запуска `python manage.py runserver`
 - развлекаешься.
 
@@ -8,6 +9,7 @@
 
 # Установка и настройка базы данных
 - Обновить список пакетов: `sudo apt update`
+- Установить PostgreSQL: `sudo apt install postgresql`
 - Войти в учётную запись Postgresql: `sudo -u postgres psql`
 - Создание базы данных: `CREATE DATABASE db_name;`
 - Создание пользователя: `CREATE USER user WITH PASSWORD 'password';`
@@ -16,7 +18,13 @@
 
 # Клонирование репозитория и настройка .env файла 
 - Клонировать репозиторий `git clone https://github.com/abushka/backend_monogatari_guide`
+- Установить зависимости `pip install -r requirements.txt`
 - Копировать файл `.env_example`, переименовать на `.env` и изменить значения переменных на свои
+
+- `SECRET_KEY` - секретный ключ Django, любой набор символов, если впадлу создавать новый секретный ключ, то просто раскоментируйте строчку в файле `settings.py` в `monogatari_backend` `# SECRET_KEY = 'django-insecure-#xr4+jp*mg(9&k2j!7=eqwh*s$1@@9ba(l5d)xmc^p7j85%ic'` и закомментируйте строчку `SECRET_KEY = os.getenv('SECRET_KEY')`
+но лучше конечно использовать следующее:
+Импортируйте `from django.core.management.utils import get_random_secret_key` и отобразите секретный ключ в консоли с помощью `print(get_random_secret_key())`, результат будет примерно таким - `gw^9ej(l4vq%d_06xig$vw+b(-@#00@8l7jlv77=sq5r_sf3nu`
+
 - `POSTGRES_DB` - имя базы данных, её создали с помощью команды `CREATE DATABASE db_name;`
 - `POSTGRES_USER` - имя пользователя, `POSTGRES_PASSWORD` - пароль пользователя, их мы создали с помощью команды `CREATE USER user WITH PASSWORD 'password';`
 - `POSTGRES_HOST` - это оставляете без изменений, хотя можете поставить и `0.0.0.0`, ну а если запускаете в докере, то впишите имя сервиса
