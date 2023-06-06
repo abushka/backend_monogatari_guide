@@ -65,7 +65,7 @@ class CustomUserAdmin(UserAdmin):
                 ),
             },
         ),
-        (_("Important dates"), {"fields": ("last_login",)}),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     readonly_fields = ("last_login", "date_joined")
 

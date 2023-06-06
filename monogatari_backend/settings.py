@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
-import logging
 
 load_dotenv()
 
@@ -31,31 +30,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'D:\desktop\monogatari\monogatari_backend\log.txt',  # Путь к файлу, в который будут записываться логи
-        },
-    },
-    'root': {
-        'handlers': ['console', 'file'],
-        'level': 'INFO',  # Уровень логирования (можно изменить на 'DEBUG', чтобы получать более подробные сообщения)
-    },
-    'loggers': {
-        'allauth': {
-            'handlers': ['console', 'file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-    },
-}
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'monogatari-guide.com', 'back.monogatari-guide.com', 'abushka.uz', 'back.abushka.uz']
 
@@ -223,8 +197,8 @@ SIMPLE_JWT = {
     'JTI_CLAIM': 'jti',
 
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(days=5),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=30),
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=7),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=90),
 
     'TOKEN_BLACKLIST_ENABLED': True,
     'TOKEN_BLACKLIST_MODEL': 'rest_framework_simplejwt.token_blacklist.models.BlacklistedToken',
@@ -255,7 +229,7 @@ REST_AUTH = {
     'JWT_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
     'JWT_SERIALIZER_WITH_EXPIRATION': 'dj_rest_auth.serializers.JWTSerializerWithExpiration',
     'JWT_TOKEN_CLAIMS_SERIALIZER': 'rest_framework_simplejwt.serializers.TokenObtainPairSerializer',
-    'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer',
+    'USER_DETAILS_SERIALIZER': 'auth_user.serializers.CustomUserSerializer',
     'PASSWORD_RESET_SERIALIZER': 'dj_rest_auth.serializers.PasswordResetSerializer',
     'PASSWORD_RESET_CONFIRM_SERIALIZER': 'dj_rest_auth.serializers.PasswordResetConfirmSerializer',
     'PASSWORD_CHANGE_SERIALIZER': 'dj_rest_auth.serializers.PasswordChangeSerializer',

@@ -5,6 +5,7 @@ dj-rest-auth==4.0.1
 django-allauth==0.54.0
 djangorestframework-simplejwt==5.2.2
 django-cors-headers==4.0.0
+WhiteNoise==6.4.0
 # API
 requests==2.31.0
 # Database

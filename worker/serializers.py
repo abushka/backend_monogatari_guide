@@ -1,9 +1,14 @@
 from rest_framework import serializers
-from .models import Serie, SerieStatus, Season, Volume, Chapter
+from .models import Serie, SerieStatus, Season, SeasonStatus,Volume, VolumeStatus, Chapter, ChapterStatus
 
 class SeasonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Season
+        fields = '__all__'
+
+class SeasonStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeasonStatus
         fields = '__all__'
 
 class SerieSerializer(serializers.ModelSerializer):
@@ -23,9 +28,19 @@ class VolumeSerializer(serializers.ModelSerializer):
         model = Volume
         fields = '__all__'
 
+class VolumeStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VolumeStatus
+        fields = '__all__'
+
 class ChapterSerializer(serializers.ModelSerializer):
     volume = VolumeSerializer()
 
     class Meta:
         model = Chapter
+        fields = '__all__'
+
+class ChapterStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChapterStatus
         fields = '__all__'

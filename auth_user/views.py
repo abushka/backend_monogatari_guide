@@ -1,28 +1,44 @@
-# import requests
-# import os
-# from dotenv import load_dotenv
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import CustomUserSerializer
+from .models import CustomUser
 
-# load_dotenv()
+# class CustomUserView(RetrieveAPIView):
+#     serializer_class = CustomUserSerializer
 
-# def refresh_token(refresh_token):
-#     verify_url = f'{os.getenv("DJANGO_PROTOCOL")}{os.getenv("DJANGO_HOST")}{os.getenv("DJANGO_PORT")}/api/auth/token/verify/'
-#     refresh_url = f'{os.getenv("DJANGO_PROTOCOL")}{os.getenv("DJANGO_HOST")}{os.getenv("DJANGO_PORT")}/api/auth/token/refresh/'
-#     print()
-
-#     # Проверяем валидность токена
-#     verify_data = {'token': refresh_token}
-#     response = requests.post(verify_url, data=verify_data)
-#     if response.status_code == 200:
-#         print("Токен валиден.")
-#     else:
-#         print("Токен недействителен. Получаем новый токен.")
-
-#         # Обновляем токен
-#         refresh_data = {'refresh': refresh_token}
-#         response = requests.post(refresh_url, data=refresh_data)
-#         if response.status_code == 200:
-#             new_token = response.json().get('access_token')
-#             print("Новый токен получен:", new_token)
-#             # Далее вы можете использовать новый токен для доступа к защищенным ресурсам
-#         else:
-#             print("Не удалось получить новый токен.")
+#     def get_object(self):
+#         # Возвращает объект пользователя текущего запроса
+#         return self.request.user
+    
+# Users
+@api_view(['GET'])
+def series_status_view(request):
+    if request.method == 'GET':
+        user = request.user
+        CustomUsers = CustomUser.objects.all()
+        Custom_user = CustomUsers.objects.filter(user=user)
+        
+        response_data = {}
+        
+        if Custom_user:
+            # Если статус не найден, добавляем серию со статусом "не просмотрено"
+            data = {
+                'user': CustomUserSerializer(Custom_user).data
+            }
+        # else:
+        #     # Если статус найден, добавляем серию и его статус
+        #     data = {
+        #         'serie': SerieSerializer(serie).data,
+        #         'status': status.status
+        #     }
+            
+            return Response(data)
+        else:
+            response_data = {
+                'detail': 'Нет такого пользователя.',
+                'detail_en': 'This user is death.'
+            }
+            return Response(response_data, status=204)
+    else:
+        return Response({'detail': 'Method not allowed.'}, status=405)

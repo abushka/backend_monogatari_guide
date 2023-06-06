@@ -2,19 +2,21 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.auth.hashers import make_password
 import uuid
+import datetime
 
 class UserManager(BaseUserManager):
     def create_user(self, username, password=None):
         if not username:
             raise ValueError("The username must be set")
 
-        user = self.model(username=username)
+        user = self.model(username=username, date_joined=datetime.now())
         user.set_password(password)
         user.save(using=self._db)
         return user
 
     def create_superuser(self, username, password=None):
         user = self.create_user(username, password)
+        user.date_joined = datetime.now()
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
