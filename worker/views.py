@@ -67,11 +67,25 @@ def series_status_view(request):
 def seasons_view(request):
     if request.method == 'GET':
         seasons = Season.objects.all()
-        serializer = SeasonSerializer(seasons, many=True)
-        return Response(serializer.data)
+        serialized_seasons = {}
+        for season in seasons:
+            serialized_season = SeasonSerializer(season).data
+            serialized_season['number'] = season.number
+            serialized_seasons[str(season.number)] = serialized_season
+        # serializer = SeasonSerializer(seasons, many=True)
+        return Response(serialized_seasons)
 
     else:
         return Response({'detail': 'Method not allowed.'}, status=405)
+
+    #     for serie in series:
+    #         serialized_serie = SerieSerializer(serie).data
+    #         serialized_serie['number'] = serie.number
+    #         serialized_series[str(serie.number)] = serialized_serie
+
+    #     return Response(serialized_series)
+    # else:
+    #     return Response({'detail': 'Method not allowed.'}, status=405)
 
 
 @api_view(['GET'])

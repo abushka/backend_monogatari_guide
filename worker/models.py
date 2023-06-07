@@ -29,6 +29,7 @@ class SeasonStatus(models.Model):
     season = models.ForeignKey(Season, on_delete=models.CASCADE)
     STATUS_CHOICES = (
         ('not-watched', 'Не просмотрено'),
+        ('watching', 'Смотрю'),
         ('watched', 'Просмотрено'),
         ('to-watch', 'Буду смотреть'),
     )
@@ -70,6 +71,7 @@ class SerieStatus(models.Model):
     serie = models.ForeignKey(Serie, on_delete=models.CASCADE)
     STATUS_CHOICES = (
         ('not-watched', 'Не просмотрено'),
+        ('watching', 'Смотрю'),
         ('watched', 'Просмотрено'),
         ('to-watch', 'Буду смотреть'),
     )
@@ -106,6 +108,7 @@ class VolumeStatus(models.Model):
     volume = models.ForeignKey(Volume, on_delete=models.CASCADE)
     STATUS_CHOICES = (
         ('not-watched', 'Не просмотрено'),
+        ('watching', 'Смотрю'),
         ('watched', 'Просмотрено'),
         ('to-watch', 'Буду смотреть'),
     )
@@ -142,6 +145,7 @@ class ChapterStatus(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     STATUS_CHOICES = (
         ('not-watched', 'Не просмотрено'),
+        ('watching', 'Смотрю'),
         ('watched', 'Просмотрено'),
         ('to-watch', 'Буду смотреть'),
     )
