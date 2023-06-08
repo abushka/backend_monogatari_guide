@@ -6,6 +6,8 @@ urlpatterns = [
     path('series/', views.series_view, name='series'),
     # Путь к статусам серий
     path('series/status/', views.series_status_view, name='series-status'),
+    # Сохранение статуса для серий
+    path('series/status/change/', views.series_save_status_view, name='series-status-change'),
     # Путь к сезонам
     path('seasons/', views.seasons_view, name='seasons'),
     # Путь к статусам сезонов
@@ -20,4 +22,6 @@ urlpatterns = [
     path('volumes/', views.volumes_view, name='volumes'),
     # Путь к статусам томов
     path('volumes/status/', views.volumes_status_view, name='volumes-status'),
+
+    path('anime-release-order/', views.series_view, name='anime_release_order'),
 ]

@@ -58,6 +58,28 @@ def series_status_view(request):
             return Response(response_data, status=204)
     else:
         return Response({'detail': 'Method not allowed.'}, status=405)
+    
+
+@api_view(['POST'])
+def series_save_status_view(request):
+    serie_number = request.data.get('serie_number')
+    status = request.data.get('status')
+
+    user = request.user
+
+    try:
+        serie = Serie.objects.get(number=serie_number) 
+    except Serie.DoesNotExist:
+        return Response({'detail': 'Serie not found.'}, status=404)
+
+    try:
+        serie_status = SerieStatus.objects.get(user=user, serie=serie)
+        serie_status.status = status
+        serie_status.save()
+    except SerieStatus.DoesNotExist:
+        serie_status = SerieStatus.objects.create(user=user, serie=serie, status=status)
+
+    return Response({'detail': 'Status saved successfully.'})
 
 
 # Seasons
@@ -124,7 +146,6 @@ def seasons_status_view(request):
 
 @api_view(['POST'])
 def seasons_save_status_view(request):
-    token = request.data.get('token')
     season_number = request.data.get('season_number')
     status = request.data.get('status')
 
@@ -243,3 +264,43 @@ def volumes_status_view(request):
             return Response(response_data, status=204)
     else:
         return Response({'detail': 'Method not allowed.'}, status=405)
+    
+
+# сначала я должен создать переменную previous_serie = None, дальше должен идти цикл по полю anime_release_view_number у серий, в цикле я должен смотреть если previous_serie не равен None и сезон серии не такой же как previous_serie, то я должен добавлять сначала сезон, потом пихать серию в массив серий, если всё же previous_serie не равен None, но равен previous_serie, то я должен просто пихать серию в уже существующий массив серий 
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([AllowAny])
+def series_view(request):
+    if request.method == 'GET':
+        series = Serie.objects.all().order_by('anime_release_view_number')
+
+        serialized_seasons = []
+        serialized_seasons_dict = {}
+        previous_season_id = None
+        i = 1
+
+        for serie in series:
+            current_season_id = serie.season.id
+
+            if current_season_id != previous_season_id:
+                season = Season.objects.filter(id=current_season_id).first()
+                serialized_season = SeasonSerializer(season).data
+                serialized_season['series'] = []
+
+                serialized_serie = SerieSerializer(serie).data
+                serialized_season['series'].append(serialized_serie)
+
+                serialized_seasons.append(serialized_season)
+                serialized_seasons_dict[current_season_id] = serialized_season
+            else:
+                serialized_serie = SerieSerializer(serie).data
+                serialized_seasons_dict[current_season_id]['series'].append(serialized_serie)
+
+            previous_season_id = current_season_id
+            i += 1
+
+        return Response(serialized_seasons)
+    else:
+        return Response({'detail': 'Method not allowed.'}, status=405)
+
