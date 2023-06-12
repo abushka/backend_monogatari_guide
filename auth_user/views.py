@@ -1,19 +1,47 @@
-from rest_framework.generics import RetrieveAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import CustomUserSerializer
 from .models import CustomUser
+from dj_rest_auth.views import UserDetailsView
+from rest_framework import status
 
-# class CustomUserView(RetrieveAPIView):
-#     serializer_class = CustomUserSerializer
+# User change info
+class CustomUserChange(UserDetailsView):
+    def put(self, request, *args, **kwargs):
+        # Получаем данные из запроса
+        username = request.data.get('username', None)
+        email = request.data.get('email', None)
+        image = request.FILES.get('image', None)
 
-#     def get_object(self):
-#         # Возвращает объект пользователя текущего запроса
-#         return self.request.user
+        # Получаем текущего пользователя
+        user = request.user
+
+        # Обновляем поля, если они переданы и отличаются от текущих значений
+        if username is not None and username is not '' and username != user.username:
+            user.username = username
+
+        if email is not None and email is not '' and email != user.email:
+            user.email = email
+
+        if image is not None and image is not '':
+            # Проверяем, чтобы image не был пустым
+            if image:
+                # Сохраняем путь к файлу фотографии в поле image пользователя
+                user.image = image
+
+        # Сохраняем обновленного пользователя
+        user.save()
+
+        return Response({
+            'username': user.username,
+            'email': user.email,
+            'profile_picture_url': user.image_url(request),
+            "message": "Информация о пользователе обновлена"}, status=status.HTTP_200_OK)
+    
     
 # Users
 @api_view(['GET'])
-def series_status_view(request):
+def user_view(request):
     if request.method == 'GET':
         user = request.user
         CustomUsers = CustomUser.objects.all()
@@ -26,13 +54,6 @@ def series_status_view(request):
             data = {
                 'user': CustomUserSerializer(Custom_user).data
             }
-        # else:
-        #     # Если статус найден, добавляем серию и его статус
-        #     data = {
-        #         'serie': SerieSerializer(serie).data,
-        #         'status': status.status
-        #     }
-            
             return Response(data)
         else:
             response_data = {
@@ -42,3 +63,19 @@ def series_status_view(request):
             return Response(response_data, status=204)
     else:
         return Response({'detail': 'Method not allowed.'}, status=405)
+    
+
+# Users
+@api_view(['POST'])
+def user_avatar_delete(request):
+    if request.method == 'POST':
+        user = request.user
+
+        if user and user.image:
+            user.image.delete(save=True)
+            return Response({"message": "Фото профиля удалено"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "Фото профиля не найдено"}, status=status.HTTP_404_NOT_FOUND)
+    else:
+        return Response({"message": "Неверный метод запроса"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        

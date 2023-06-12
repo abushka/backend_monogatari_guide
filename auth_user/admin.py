@@ -2,8 +2,11 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
+from django.utils.html import format_html
+from django.conf import settings
 from .models import CustomUser
 from allauth.socialaccount.models import SocialAccount
+import os
 
 
 from django.contrib.auth.forms import (
@@ -43,7 +46,7 @@ class CustomUserAdminForm(forms.ModelForm):
 
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email')
+    list_display = ('username', 'email', 'display_image')
     list_filter = ("is_staff", "is_superuser", "is_active", "groups")
     search_fields = ("username", "email",)
     inlines = [SocialAccountInline]
@@ -52,7 +55,13 @@ class CustomUserAdmin(UserAdmin):
     # form = UserChangeForm
 
     fieldsets = (
-        (None, {"fields": ("username", "password", "email", "github_account")}),
+        (None, {"fields": ("username", "password", "email", "github_account", "image")}),
+        (
+            _("Image"),
+            {
+                "fields": ("image_preview",),
+            },
+        ),
         (
             _("Permissions"),
             {
@@ -67,6 +76,22 @@ class CustomUserAdmin(UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    readonly_fields = ("last_login", "date_joined")
+    readonly_fields = ("last_login", "date_joined", "image_preview")
+
+    def display_image(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="50" height="50" />', obj.image.url)
+        else:
+            return None
+
+    display_image.short_description = 'Image'
+
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="200" />', obj.image.url)
+        else:
+            return None
+
+    image_preview.short_description = 'Image Preview'
 
 admin.site.register(CustomUser, CustomUserAdmin)
