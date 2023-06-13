@@ -38,6 +38,24 @@ class CustomUserChange(UserDetailsView):
             'profile_picture_url': user.image_url(request),
             "message": "Информация о пользователе обновлена"}, status=status.HTTP_200_OK)
     
+
+# User language change
+class CustomUserLanguageChange(UserDetailsView):
+    def put(self, request, *args, **kwargs):
+        
+        language = request.data.get('language', 'ru')
+
+        user = request.user
+
+        if language is not None and language is not '' and language != user.language:
+            user.language = language
+
+        user.save()
+
+        return Response({
+            'language': user.language,
+            "message": "Язык пользователя обновлён"}, status=status.HTTP_200_OK)
+    
     
 # Users
 @api_view(['GET'])

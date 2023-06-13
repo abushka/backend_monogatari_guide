@@ -31,7 +31,7 @@ class SerieAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {"fields": ("number", "anime_release_view_number", "ranobe_release_number", "chronological_view_number",
                             "name_ru", "name_en", "name_jp", "url", "description_ru", "description_en", "description_jp",
-                            "image", "season")}),
+                            "season", "image",)}),
         (
             _("Image"),
             {
@@ -201,7 +201,7 @@ class ChapterAdmin(admin.ModelAdmin):
     ordering = ['number']
 
     fieldsets = (
-        (None, {"fields": ("number", "name_ru", "name_en", "name_jp", "url", "description_ru", "description_en", "description_jp", "image", "volume")}),
+        (None, {"fields": ("number", "name_ru", "name_en", "name_jp", "url", "description_ru", "description_en", "description_jp", "volume", "image",)}),
         (
             _("Image"),
             {

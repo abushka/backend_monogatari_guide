@@ -1,8 +1,4 @@
 .env
 .env.db
 __pycache__/
-./media/profile_pictures/*
-./media/season_pictures/*
-./media/serie_pictures/*
-./media/volume_pictures/*
-./media/chapter_pictures/*
+./media/*
