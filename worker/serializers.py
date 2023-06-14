@@ -2,6 +2,12 @@ from rest_framework import serializers
 from .models import Serie, SerieStatus, Season, SeasonStatus,Volume, VolumeStatus, Chapter, ChapterStatus
 
 class SeasonSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, season):
+        request = self.context.get('request')
+        return season.image_url(request) if request else None
+
     class Meta:
         model = Season
         fields = '__all__'
@@ -13,6 +19,11 @@ class SeasonStatusSerializer(serializers.ModelSerializer):
 
 class SerieSerializer(serializers.ModelSerializer):
     season = SeasonSerializer()
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, season):
+        request = self.context.get('request')
+        return season.image_url(request) if request else None
 
     class Meta:
         model = Serie
@@ -24,6 +35,12 @@ class SerieStatusSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class VolumeSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, season):
+        request = self.context.get('request')
+        return season.image_url(request) if request else None
+    
     class Meta:
         model = Volume
         fields = '__all__'
@@ -35,6 +52,11 @@ class VolumeStatusSerializer(serializers.ModelSerializer):
 
 class ChapterSerializer(serializers.ModelSerializer):
     volume = VolumeSerializer()
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, season):
+        request = self.context.get('request')
+        return season.image_url(request) if request else None
 
     class Meta:
         model = Chapter

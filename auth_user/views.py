@@ -5,6 +5,34 @@ from .models import CustomUser
 from dj_rest_auth.views import UserDetailsView
 from rest_framework import status
 
+
+# Users
+@api_view(['GET'])
+def user_view(request):
+    if request.method == 'GET':
+        user = request.user
+        CustomUsers = CustomUser.objects.all()
+        Custom_user = CustomUsers.objects.filter(user=user)
+        
+        response_data = {}
+        
+        if Custom_user:
+            
+            data = {
+                'user': CustomUserSerializer(Custom_user).data
+            }
+            return Response(data)
+        else:
+            response_data = {
+                'detail': 'Нет такого пользователя.',
+                'detail_en': 'This user is death.'
+            }
+            return Response(response_data, status=204)
+    else:
+        return Response({'detail': 'Method not allowed.'}, status=405)
+    
+
+
 # User change info
 class CustomUserChange(UserDetailsView):
     def put(self, request, *args, **kwargs):
@@ -28,6 +56,7 @@ class CustomUserChange(UserDetailsView):
             if image:
                 # Сохраняем путь к файлу фотографии в поле image пользователя
                 user.image = image
+                user.image_thumbnail = image
 
         # Сохраняем обновленного пользователя
         user.save()
@@ -56,32 +85,6 @@ class CustomUserLanguageChange(UserDetailsView):
             'language': user.language,
             "message": "Язык пользователя обновлён"}, status=status.HTTP_200_OK)
     
-    
-# Users
-@api_view(['GET'])
-def user_view(request):
-    if request.method == 'GET':
-        user = request.user
-        CustomUsers = CustomUser.objects.all()
-        Custom_user = CustomUsers.objects.filter(user=user)
-        
-        response_data = {}
-        
-        if Custom_user:
-            # Если статус не найден, добавляем серию со статусом "не просмотрено"
-            data = {
-                'user': CustomUserSerializer(Custom_user).data
-            }
-            return Response(data)
-        else:
-            response_data = {
-                'detail': 'Нет такого пользователя.',
-                'detail_en': 'This user is death.'
-            }
-            return Response(response_data, status=204)
-    else:
-        return Response({'detail': 'Method not allowed.'}, status=405)
-    
 
 # Users
 @api_view(['POST'])
@@ -91,6 +94,7 @@ def user_avatar_delete(request):
 
         if user and user.image:
             user.image.delete(save=True)
+            user.image_thumbnail.delete(save=True)
             return Response({"message": "Фото профиля удалено"}, status=status.HTTP_200_OK)
         else:
             return Response({"message": "Фото профиля не найдено"}, status=status.HTTP_404_NOT_FOUND)

@@ -17,7 +17,7 @@ def series_view(request):
         # Создаем словарь серий с номерами в качестве ключей
         serialized_series = {}
         for serie in series:
-            serialized_serie = SerieSerializer(serie).data
+            serialized_serie = SerieSerializer(serie, context={'request': request}).data
             serialized_serie['number'] = serie.number
             serialized_series[str(serie.number)] = serialized_serie
 
@@ -91,7 +91,7 @@ def seasons_view(request):
         seasons = Season.objects.all()
         serialized_seasons = {}
         for season in seasons:
-            serialized_season = SeasonSerializer(season).data
+            serialized_season = SeasonSerializer(season, context={'request': request}).data
             serialized_season['number'] = season.number
             serialized_seasons[str(season.number)] = serialized_season
         # serializer = SeasonSerializer(seasons, many=True)
@@ -173,7 +173,7 @@ def seasons_save_status_view(request):
 def chapters_view(request):
     if request.method == 'GET':
         chapters = Chapter.objects.all()
-        serializer = ChapterSerializer(chapters, many=True)
+        serializer = ChapterSerializer(chapters, context={'request': request}, many=True)
         return Response(serializer.data)
 
     else:
@@ -225,7 +225,7 @@ def chapters_status_view(request):
 def volumes_view(request):
     if request.method == 'GET':
         volumes = Volume.objects.all()
-        serializer = VolumeSerializer(volumes, many=True)
+        serializer = VolumeSerializer(volumes, context={'request': request}, many=True)
         return Response(serializer.data)
 
     else:
@@ -284,16 +284,16 @@ def series_anime_realease_view(request):
 
             if current_season_id != previous_season_id:
                 season = Season.objects.filter(id=current_season_id).first()
-                serialized_season = SeasonSerializer(season).data
+                serialized_season = SeasonSerializer(season, context={'request': request}).data
                 serialized_season['series'] = []
 
-                serialized_serie = SerieSerializer(serie).data
+                serialized_serie = SerieSerializer(serie, context={'request': request}).data
                 serialized_season['series'].append(serialized_serie)
 
                 serialized_seasons.append(serialized_season)
                 serialized_seasons_dict[current_season_id] = serialized_season
             else:
-                serialized_serie = SerieSerializer(serie).data
+                serialized_serie = SerieSerializer(serie, context={'request': request}).data
                 serialized_seasons_dict[current_season_id]['series'].append(serialized_serie)
 
             previous_season_id = current_season_id
@@ -321,16 +321,16 @@ def series_chronological(request):
 
             if current_season_id != previous_season_id:
                 season = Season.objects.filter(id=current_season_id).first()
-                serialized_season = SeasonSerializer(season).data
+                serialized_season = SeasonSerializer(season, context={'request': request}).data
                 serialized_season['series'] = []
 
-                serialized_serie = SerieSerializer(serie).data
+                serialized_serie = SerieSerializer(serie, context={'request': request}).data
                 serialized_season['series'].append(serialized_serie)
 
                 serialized_seasons.append(serialized_season)
                 serialized_seasons_dict[current_season_id] = serialized_season
             else:
-                serialized_serie = SerieSerializer(serie).data
+                serialized_serie = SerieSerializer(serie, context={'request': request}).data
                 serialized_seasons_dict[current_season_id]['series'].append(serialized_serie)
 
             previous_season_id = current_season_id
@@ -359,16 +359,16 @@ def series_ranobe_release(request):
 
             if current_season_id != previous_season_id:
                 season = Season.objects.filter(id=current_season_id).first()
-                serialized_season = SeasonSerializer(season).data
+                serialized_season = SeasonSerializer(season, context={'request': request}).data
                 serialized_season['series'] = []
 
-                serialized_serie = SerieSerializer(serie).data
+                serialized_serie = SerieSerializer(serie, context={'request': request}).data
                 serialized_season['series'].append(serialized_serie)
 
                 serialized_seasons.append(serialized_season)
                 serialized_seasons_dict[current_season_id] = serialized_season
             else:
-                serialized_serie = SerieSerializer(serie).data
+                serialized_serie = SerieSerializer(serie, context={'request': request}).data
                 serialized_seasons_dict[current_season_id]['series'].append(serialized_serie)
 
             previous_season_id = current_season_id
