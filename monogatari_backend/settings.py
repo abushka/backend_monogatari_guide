@@ -36,6 +36,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'monogatari-guide.com', 'back.monogatari-guide.com', 'abushka.uz', 'back.abushka.uz']
 
 CSRF_TRUSTED_ORIGINS = [
+    'https://back.monogatari-guide.com',
     'https://monogatari-guide.com',
     'https://back.abushka.uz',
 ]
@@ -144,7 +145,7 @@ AUTH_PASSWORD_VALIDATORS = [
         },
     },
     {
-        'NAME': 'auth_user.validators.MinLengthValidator',  # Замените "myapp" на имя вашего приложения
+        'NAME': 'auth_user.validators.MinLengthValidator',
     },
 ]
 
@@ -164,13 +165,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-# STATIC_URL = '/django_static/'
+STATIC_URL = '/django_static/'
 
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = '/var/www/html/django_static/'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/django_media/'
+MEDIA_ROOT = '/var/www/html/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
