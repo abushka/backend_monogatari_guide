@@ -18,16 +18,16 @@ class SeasonStatusSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class SerieSerializer(serializers.ModelSerializer):
-    season = SeasonSerializer()
+    season_id = serializers.IntegerField(source='season.id')  # Используем поле season_id для хранения идентификатора сезона
     image = serializers.SerializerMethodField()
 
-    def get_image(self, season):
+    def get_image(self, serie):
         request = self.context.get('request')
-        return season.image_url(request) if request else None
+        return serie.image_url(request) if request else None
 
     class Meta:
         model = Serie
-        fields = '__all__'
+        exclude = ('season',)  # Исключаем поле season из сериализации
 
 class SerieStatusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,9 +37,9 @@ class SerieStatusSerializer(serializers.ModelSerializer):
 class VolumeSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
 
-    def get_image(self, season):
+    def get_image(self, volume):
         request = self.context.get('request')
-        return season.image_url(request) if request else None
+        return volume.image_url(request) if request else None
     
     class Meta:
         model = Volume
@@ -54,9 +54,9 @@ class ChapterSerializer(serializers.ModelSerializer):
     volume = VolumeSerializer()
     image = serializers.SerializerMethodField()
 
-    def get_image(self, season):
+    def get_image(self, chapter):
         request = self.context.get('request')
-        return season.image_url(request) if request else None
+        return chapter.image_url(request) if request else None
 
     class Meta:
         model = Chapter

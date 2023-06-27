@@ -29,7 +29,7 @@ class Season(models.Model):
     
     def image_url(self, request):
         if self.image != '':
-            return request.scheme + '://' + request.get_host() + str(self.image.url)
+            return 'https://' + request.get_host() + str(self.image.url)
         else:
             return None
 
@@ -56,13 +56,12 @@ class SeasonImage(models.Model):
 
     def image_url(self, request):
         if self.image != '':
-            return request.scheme + '://' + request.get_host() + str(self.image.url)
+            return 'https://' + request.get_host() + str(self.image.url)
         else:
             return None
 
 
 # Series
-
 class Serie(models.Model):
     number = models.IntegerField(blank=True, null=True)
     anime_release_view_number = models.IntegerField(blank=True, null=True)
@@ -90,7 +89,7 @@ class Serie(models.Model):
     
     def image_url(self, request):
         if self.image != '':
-            return request.scheme + '://' + request.get_host() + str(self.image.url)
+            return 'https://' + request.get_host() + str(self.image.url)
         else:
             return None
 
@@ -117,7 +116,7 @@ class SerieImage(models.Model):
 
     def image_url(self, request):
         if self.image != '':
-            return request.scheme + '://' + request.get_host() + str(self.image.url)
+            return 'https://' + request.get_host() + str(self.image.url)
         else:
             return None
 
@@ -146,7 +145,7 @@ class Volume(models.Model):
     
     def image_url(self, request):
         if self.image != '':
-            return request.scheme + '://' + request.get_host() + str(self.image.url)
+            return 'https://' + request.get_host() + str(self.image.url)
         else:
             return None
 
@@ -173,7 +172,7 @@ class VolumeImage(models.Model):
 
     def image_url(self, request):
         if self.image != '':
-            return request.scheme + '://' + request.get_host() + str(self.image.url)
+            return 'https://' + request.get_host() + str(self.image.url)
         else:
             return None
 
@@ -202,7 +201,7 @@ class Chapter(models.Model):
     
     def image_url(self, request):
         if self.image != '':
-            return request.scheme + '://' + request.get_host() + str(self.image.url)
+            return 'https://' + request.get_host() + str(self.image.url)
         else:
             return None
 
@@ -229,6 +228,6 @@ class ChapterImage(models.Model):
 
     def image_url(self, request):
         if self.image != '':
-            return request.scheme + '://' + request.get_host() + str(self.image.url)
+            return 'https://' + request.get_host() + str(self.image.url)
         else:
             return None

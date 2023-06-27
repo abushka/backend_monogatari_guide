@@ -53,8 +53,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
     def image_url(self, request):
         if self.image != '':
-            image = request.scheme + '://' + request.get_host() + str(self.image.url)
-            image_thumbnail = request.scheme + '://' + request.get_host() + str(self.image_thumbnail.url)
-            return {"image": image, "image_thumbnail": image_thumbnail}
+            image = 'https://' + request.get_host() + str(self.image.url)
+            image_thumbnail = 'https://' + request.get_host() + str(self.image_thumbnail.url)
+            return image, image_thumbnail
         else:
-            return None
+            return None, None
+

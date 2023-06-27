@@ -33,7 +33,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'monogatari-guide.com', 'back.monogatari-guide.com', 'abushka.uz', 'back.abushka.uz']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'monogatari-guide.com', 'back.monogatari-guide.com', 'abushka.uz', 'back.abushka.uz', '89.19.208.182']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://back.monogatari-guide.com',
@@ -73,7 +73,6 @@ INSTALLED_APPS = [
     'corsheaders',
     
     'auth_user',
-    # 'fanat',
     'worker',
 ]
 
@@ -93,6 +92,12 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'monogatari_backend.urls'
 
@@ -165,12 +170,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/django_static/'
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
-STATIC_ROOT = '/var/www/html/django_static/'
-
-MEDIA_URL = '/django_media/'
-MEDIA_ROOT = '/var/www/html/media/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

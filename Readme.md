@@ -41,7 +41,7 @@ P.S может напишу чуть позже Dockerfile и docker-compose.yml
 # Простой запуск
 Если нужен простой запуск, то вводим ручками `python manage.py runserver`, по желанию можно указать адрес и порт, к примеру `python manage.py runserver 0.0.0.0:8000`
 
-# Засунуть Django проект в автозагрузку.
+# Засунуть Django проект в автозагрузку через runserver.
 Создать файл службы Django:
 - `sudo nano /etc/systemd/system/django.service`
 - Вставить в файл службы Django следующий код:
@@ -73,8 +73,44 @@ P.S может напишу чуть позже Dockerfile и docker-compose.yml
 - `sudo systemctl enable django`
 - `sudo systemctl start django`
 
-Чтобы узнать статус django проекта или остановить
-- узнать статус: `sudo systemctl status django`
+Чтобы узнать статус django проекта, перезапустить или остановить
+- узнать статус: `sudo systemctl status django` или `sudo service django status`
+- перезапустить `sudo service django restart`
+- остановить: `sudo systemctl stop django`
+
+# Засунуть Django проект в автозагрузку через gunicorn.
+Создать файл службы Django:
+- `sudo nano /etc/systemd/system/django.service`
+- Вставить в файл службы Django следующий код:
+
+      [Unit]
+      Description=Django Web Application
+      After=network.target
+
+      [Service]
+      User=username
+      Group=group
+      WorkingDirectory=/path/to/project_directory
+      ExecStart=/usr/local/bin/gunicorn --config /path/to/project_directory/gunicorn.conf.py monogatari_backend.asgi:application
+
+      [Install]
+      WantedBy=multi-user.target
+
+- Заменить `username` на имя пользователя.
+- Заменить `group` на группу пользователя (обычно такое же как имя пользователя, но чтобы узнать свою группу в Linux, нужно ввести команду `groups`).
+- Заменить `/path/to/project_directory` на путь к проекту Django(это можно узнать командой набрав команду `pwd` находясь в корневой директории проекта).
+- Путь `/usr/local/bin/gunicorn` стандартный для `gunicorn`, он устанавливается с остальными зависимостями из `requirements.txt`
+
+- Сохранить файл и закрыть редактор сочетанием клавиш `CTRL и X`, далее соглашаемся нажав клавишу `Y`, и нажимаем `Enter` если подходит имя файла (если что, оно подходит)
+
+- Запустить следующие команды, чтобы активировать службу Django и запустить ее:
+- `sudo systemctl daemon-reload`
+- `sudo systemctl enable django`
+- `sudo systemctl start django`
+
+Чтобы узнать статус django проекта, перезапустить или остановить
+- узнать статус: `sudo systemctl status django` или `sudo service django status`
+- перезапустить `sudo service django restart`
 - остановить: `sudo systemctl stop django`
 
 # Установка и настройка Nginx
