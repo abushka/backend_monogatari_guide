@@ -35,7 +35,7 @@ def series_view(request):
             serialized_serie['number'] = serie.number
             serialized_serie['images'] = [image.image_url(request) for image in serie.images.all()]
 
-            serialized_serie['season_id'] = serie.season.id  # Добавляем поле season_id с идентификатором сезона
+            serialized_serie['season_id'] = serie.season.id
             serialized_series[str(serie.number)] = serialized_serie
 
         return Response(serialized_series)

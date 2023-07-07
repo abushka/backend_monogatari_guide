@@ -33,12 +33,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'monogatari-guide.com', 'back.monogatari-guide.com', 'abushka.uz', 'back.abushka.uz', '89.19.208.182']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '0.0.0.0', 'monogatari-guide.com', 'back.monogatari-guide.com', '89.19.208.182']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://back.monogatari-guide.com',
     'https://monogatari-guide.com',
-    'https://back.abushka.uz',
+    # 'https://back.abushka.uz',
 ]
 
 # Application definition
