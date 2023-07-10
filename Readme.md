@@ -132,8 +132,8 @@ P.S может напишу чуть позже Dockerfile и docker-compose.yml
 
 Лично у меня настроены два файла в директории `/etc/nginx/sites-available/`, это файл `default` и файл `back.monogatari-guide.com`
 
-Файл `default` прослушивает `443` порт доменов `monogatari-guide.com` и `abushka.uz` и переводит их на фронтенд
+Файл `default` прослушивает `443` порт доменов `monogatari-guide.com` и переводит их на фронтенд
 
 Кстати, фронтенд на реакте, находится по ссылке [https://github.com/abushka/Monogatari_Guide](https://github.com/abushka/Monogatari_Guide), сделал build проекта и поместил файлы в стандартную директорию html-файлов для Nginx - `/var/www/html/`, это также прописано в моём `default` файле
 
-Файл `back.monogatari-guide.com` прослушивает `443` порт доменов `back.monogatari-guide.com` и `back.abushka.uz` и проксирует на локально запущенный Django проект по адресу `http://127.0.0.1:8000`
+Файл `back.monogatari-guide.com` прослушивает `443` порт доменов `back.monogatari-guide.com` и проксирует на локально запущенный Django проект по адресу `http://127.0.0.1:8000`
