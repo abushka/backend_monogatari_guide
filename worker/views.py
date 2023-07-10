@@ -102,6 +102,8 @@ def series_save_status_view(request):
 
     return Response({'detail': 'Status saved successfully.'})
 
+ 
+# Seasons
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([AllowAny])
@@ -211,7 +213,7 @@ def chapters_view(request):
 def chapters_status_view(request):
     if request.method == 'GET':
         user = request.user
-        chapters = Chapter.objects.all().select_related('volume')
+        chapters = Chapter.objects.all()
 
         chapters_statuses = ChapterStatus.objects.filter(user=user, chapter__in=chapters).select_related('chapter')
 
@@ -220,33 +222,51 @@ def chapters_status_view(request):
         for chapter in chapters:
             status = next((status for status in chapters_statuses if status.chapter == chapter), None)
             if status is None:
-                # Если статус не найден, добавляем серию со статусом "не просмотрено"
-                data = {
-                    'chapter': ChapterSerializer(chapter).data,
-                    'status': 'not-watched'
-                }
+                # Если статус не найден, добавляем главу со статусом "не просмотрено"
+                chapter_data = ChapterSerializer(chapter).data
+                chapter_data['status'] = 'not-watched'
             else:
-                # Если статус найден, добавляем серию и его статус
-                data = {
-                    'chapter': ChapterSerializer(chapter).data,
-                    'status': status.status
-                }
+                # Если статус найден, добавляем серию и её статус
+                chapter_data = ChapterSerializer(chapter).data
+                chapter_data['status'] = status.status
 
             # Главы и связанные с ними изображения
-            data['chapter']['images'] = [image.image_url(request) for image in chapter.images.all()]
+            chapter_data['images'] = [image.image_url(request) for image in chapter.images.all()]
 
-            response_data[chapter.number] = data
+            response_data[chapter.number] = {'chapter': chapter_data}
 
         if response_data:
             return Response(response_data)
         else:
             response_data = {
-                'detail': 'У вас нет просмотренных серий.',
-                'detail_en': 'You have no watched series.'
+                'detail': 'У вас нет просмотренных глав.',
+                'detail_en': 'You have no watched chapters.'
             }
             return Response(response_data, status=204)
     else:
         return Response({'detail': 'Method not allowed.'}, status=405)
+    
+
+@api_view(['POST'])
+def chapters_save_status_view(request):
+    chapter_number = request.data.get('chapter_number')
+    status = request.data.get('status')
+
+    user = request.user
+
+    try:
+        chapter = Chapter.objects.get(number=chapter_number)
+    except Chapter.DoesNotExist:
+        return Response({'detail': 'Chapter not found.'}, status=404)
+
+    try:
+        chapter_status = ChapterStatus.objects.get(user=user, chapter=chapter)
+        chapter_status.status = status
+        chapter_status.save()
+    except ChapterStatus.DoesNotExist:
+        chapter_status = ChapterStatus.objects.create(user=user, chapter=chapter, status=status)
+
+    return Response({'detail': 'Status saved successfully.'})
 
 
 # Volumes
@@ -304,6 +324,28 @@ def volumes_status_view(request):
             return Response(response_data, status=204)
     else:
         return Response({'detail': 'Method not allowed.'}, status=405)
+    
+
+@api_view(['POST'])
+def volumes_save_status_view(request):
+    volume_number = request.data.get('volume_number')
+    status = request.data.get('status')
+
+    user = request.user
+
+    try:
+        volume = Volume.objects.get(number=volume_number)
+    except Volume.DoesNotExist:
+        return Response({'detail': 'Volume not found.'}, status=404)
+
+    try:
+        volume_status = VolumeStatus.objects.get(user=user, volume=volume)
+        volume_status.status = status
+        volume_status.save()
+    except VolumeStatus.DoesNotExist:
+        volume_status = VolumeStatus.objects.create(user=user, volume=volume, status=status)
+
+    return Response({'detail': 'Status saved successfully.'})
 
 
 # Series anime release view

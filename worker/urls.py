@@ -24,8 +24,12 @@ urlpatterns = [
     path('chapters/', views.chapters_view, name='chapters'),
     # Путь к статусам глав
     path('chapters/status/', views.chapters_status_view, name='chapters-status'),
+    # Сохранение статуса для глав
+    path('chapters/status/change/', views.chapters_save_status_view, name='chapters-status-change'),
     # Путь к томам
     path('volumes/', views.volumes_view, name='volumes'),
     # Путь к статусам томов
     path('volumes/status/', views.volumes_status_view, name='volumes-status'),
+    # Сохранение статуса для томов
+    path('volumes/status/change/', views.volumes_save_status_view, name='volumes-status-change'),
 ]

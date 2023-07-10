@@ -51,7 +51,8 @@ class VolumeStatusSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ChapterSerializer(serializers.ModelSerializer):
-    volume = VolumeSerializer()
+    # volume = VolumeSerializer()
+    volume_id = serializers.IntegerField(source='volume.id')
     image = serializers.SerializerMethodField()
 
     def get_image(self, chapter):
